@@ -167,7 +167,7 @@ children. If you believe a child has provided personal information, contact us a
 
 def index():
     items = "".join(
-        f'<li><img class="icon" src="icons/{slug}.png" alt="" width="44" height="44"><a href="{slug}/">{html.escape(name)}</a> <span class="muted">({html.escape(pkg)})</span></li>\n'
+        f'<li><img class="icon" src="icons/{slug}.png" alt="" width="44" height="44"><a href="policy/{slug}-privacy.html">{html.escape(name)}</a> <span class="muted">({html.escape(pkg)})</span></li>\n'
         for slug, name, pkg, _ in APPS
     )
     body = f"""
@@ -180,14 +180,28 @@ def index():
     return page(f"{DEVELOPER} – Privacy Policies", body)
 
 
+def redirect(target):
+    return f"""<!doctype html>
+<meta charset="utf-8">
+<title>Moved</title>
+<link rel="canonical" href="{target}">
+<meta http-equiv="refresh" content="0; url={target}">
+<p>This page has moved to <a href="{target}">{target}</a>.</p>
+"""
+
+
 def main():
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     with open(os.path.join(root, "index.html"), "w", encoding="utf-8") as f:
         f.write(index())
+    os.makedirs(os.path.join(root, "policy"), exist_ok=True)
     for slug, name, pkg, features in APPS:
+        with open(os.path.join(root, "policy", f"{slug}-privacy.html"), "w", encoding="utf-8") as f:
+            f.write(policy(slug, name, pkg, features))
+        # Old address (/<slug>/) forwards to the new one.
         os.makedirs(os.path.join(root, slug), exist_ok=True)
         with open(os.path.join(root, slug, "index.html"), "w", encoding="utf-8") as f:
-            f.write(policy(slug, name, pkg, features))
+            f.write(redirect(f"../policy/{slug}-privacy.html"))
     # Serve files as-is on GitHub Pages (no Jekyll processing).
     open(os.path.join(root, ".nojekyll"), "w").close()
     print("built", len(APPS), "policies")
