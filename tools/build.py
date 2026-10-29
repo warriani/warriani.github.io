@@ -87,7 +87,7 @@ def page(title, body):
 <body>
 <main>
 {body}
-<footer>{html.escape(DEVELOPER)} · <a href="mailto:{EMAIL}">{EMAIL}</a> · <a href="{WEBSITE}">{WEBSITE}</a></footer>
+<footer>{html.escape(DEVELOPER)} · <a href="mailto:{EMAIL}">{EMAIL}</a></footer>
 </main>
 </body>
 </html>
