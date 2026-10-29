@@ -69,7 +69,9 @@ main{max-width:760px;margin:0 auto;padding:32px 16px 64px}h1{font-size:28px;line
 h2{font-size:19px;margin:32px 0 8px}p,li{color:var(--ink)}.muted{color:var(--muted)}a{color:var(--accent)}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:16px 0}
 dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 16px;margin:0}dt{color:var(--muted)}dd{margin:0;overflow-wrap:anywhere}
-ul{padding-left:20px}footer{margin-top:40px;font-size:14px;color:var(--muted)}
+ul{padding-left:20px}.head{display:flex;align-items:center;gap:16px;margin-bottom:8px}.head h1{margin:0}
+.icon{width:72px;height:72px;border-radius:16px;flex:none;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.apps{list-style:none;padding:0}.apps li{display:flex;align-items:center;gap:12px;margin:10px 0}.apps .icon{width:44px;height:44px;border-radius:10px}footer{margin-top:40px;font-size:14px;color:var(--muted)}
 """
 
 
@@ -92,11 +94,11 @@ def page(title, body):
 """
 
 
-def policy(name, package, features):
+def policy(slug, name, package, features):
     e = html.escape
     extra = "".join(f"<h2>{e(FEATURES[f][0])}</h2>\n<p>{e(FEATURES[f][1])}</p>\n" for f in features)
     body = f"""
-<h1>Privacy Policy for {e(name)}</h1>
+<div class="head"><img class="icon" src="../icons/{slug}.png" alt="{e(name)} icon" width="72" height="72"><h1>Privacy Policy for {e(name)}</h1></div>
 <p class="muted">Last updated: {UPDATED}</p>
 
 <div class="card"><dl>
@@ -165,14 +167,14 @@ children. If you believe a child has provided personal information, contact us a
 
 def index():
     items = "".join(
-        f'<li><a href="{slug}/">{html.escape(name)}</a> <span class="muted">({html.escape(pkg)})</span></li>\n'
+        f'<li><img class="icon" src="icons/{slug}.png" alt="" width="44" height="44"><a href="{slug}/">{html.escape(name)}</a> <span class="muted">({html.escape(pkg)})</span></li>\n'
         for slug, name, pkg, _ in APPS
     )
     body = f"""
 <h1>{html.escape(DEVELOPER)} – Privacy Policies</h1>
 <p class="muted">Last updated: {UPDATED}</p>
 <p>Privacy policies for the Android apps published on Google Play by {html.escape(DEVELOPER)}.</p>
-<ul>
+<ul class="apps">
 {items}</ul>
 """
     return page(f"{DEVELOPER} – Privacy Policies", body)
@@ -185,7 +187,7 @@ def main():
     for slug, name, pkg, features in APPS:
         os.makedirs(os.path.join(root, slug), exist_ok=True)
         with open(os.path.join(root, slug, "index.html"), "w", encoding="utf-8") as f:
-            f.write(policy(name, pkg, features))
+            f.write(policy(slug, name, pkg, features))
     # Serve files as-is on GitHub Pages (no Jekyll processing).
     open(os.path.join(root, ".nojekyll"), "w").close()
     print("built", len(APPS), "policies")
