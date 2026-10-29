@@ -7,9 +7,7 @@ import html
 import os
 
 DEVELOPER = "Warriani Entertainment"
-LEGAL_ENTITY = "NGUYEN THE HUNG (Vietnam)"
-EMAIL = "kelynback@gmail.com"
-WEBSITE = "https://iyeahent.com"
+EMAIL = "eyeeargle@gmail.com"
 UPDATED = "October 29, 2026"
 
 # slug, app name as on Google Play, package, extra features that touch data
@@ -105,7 +103,6 @@ def policy(name, package, features):
 <dt>App</dt><dd>{e(name)}</dd>
 <dt>Package name</dt><dd>{e(package)}</dd>
 <dt>Developer</dt><dd>{e(DEVELOPER)} (as shown on Google Play)</dd>
-<dt>Legal entity</dt><dd>{e(LEGAL_ENTITY)}</dd>
 <dt>Contact</dt><dd><a href="mailto:{EMAIL}">{EMAIL}</a></dd>
 </dl></div>
 
@@ -161,7 +158,7 @@ children. If you believe a child has provided personal information, contact us a
 "Last updated" date.</p>
 
 <h2>Contact</h2>
-<p>{e(DEVELOPER)}, {e(LEGAL_ENTITY)} — <a href="mailto:{EMAIL}">{EMAIL}</a></p>
+<p>{e(DEVELOPER)} — <a href="mailto:{EMAIL}">{EMAIL}</a></p>
 """
     return page(f"Privacy Policy – {name}", body)
 
@@ -174,8 +171,7 @@ def index():
     body = f"""
 <h1>{html.escape(DEVELOPER)} – Privacy Policies</h1>
 <p class="muted">Last updated: {UPDATED}</p>
-<p>Privacy policies for the Android apps published on Google Play by {html.escape(DEVELOPER)}
-({html.escape(LEGAL_ENTITY)}).</p>
+<p>Privacy policies for the Android apps published on Google Play by {html.escape(DEVELOPER)}.</p>
 <ul>
 {items}</ul>
 """
