@@ -21,9 +21,19 @@ APPS = [
     ("fidget-spinner", "Fidget Spinner Hands – Spin", "com.BestAppsTNeX.FidgetSpinner", ["camera"]),
     ("vacuum-cleaner-prank", "Vacuum Cleaner Simulator Prank", "com.iYeahEntertainmet.vacuumcleaner", ["camera", "vibration"]),
     ("dog-and-cat-on-screen", "Dog and Cat on Screen", "com.iYeahEntertainment.SnakeOnScreen", ["overlay", "photo", "notifications"]),
+    ("diesel-engine", "Diesel Engine Sound Simulator", "com.iYeahEntertainment.DieselEngine", ["location"]),
 ]
 
 FEATURES = {
+    "location": (
+        "Location (GPS mode)",
+        "Only if you turn on GPS mode and allow location access, the app reads your current speed from your "
+        "device's location while the app is open on screen, so the engine sound follows how fast you move. "
+        "The speed is used instantly on your device and then discarded: the app does not store your location, "
+        "keep a history, track you in the background or send your location anywhere. GPS mode is optional; "
+        "you can refuse or withdraw the location permission at any time in Android settings and the rest of "
+        "the app still works.",
+    ),
     "camera": (
         "Camera",
         "If you allow it, the app shows the live view of your rear camera behind the on-screen effect. "
